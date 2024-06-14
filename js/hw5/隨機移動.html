@@ -1,0 +1,23 @@
+<html>
+    <body>
+        <button onclick="big()">點我隨機移動</button>
+    </body>
+    <script>
+        function big(){
+            left = Math.random()*window.innerWidth
+            top1 = Math.random()*window.innerHeight
+            b.style = `position:${position}; height:${height}px; width:${width}px; font-size:${fontsize}px; left:${left}; top:${top1};`
+            setTimeout(big,10)
+            
+        }
+
+        let fontsize = 20;
+        let height = 40;
+        let width = 150;
+        let top1= 0;
+        let left= 0;
+        let position = 'absolute';
+        let b = document.querySelector('button');
+        b.style = `position:${position}; height:${height}px; width:${width}px; font-size:${fontsize}px; left:${left}; top:${top1};`
+    </script>
+</html>
