@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style> 
+    .sidebar {
+      width: 100px;
+      height: 100vh;
+      background-image: linear-gradient(-225deg, #CBBACC 0%, #2580B3 100%);
+      transition: width 0.5s;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    .link {
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+
+    .link a {
+      display: block;
+      margin-bottom: 10px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+
+    .toggle-button {
+      position: fixed;
+      top: 20px;
+      left: 100px;
+      background-color: #2580B3;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 1;
+      transition: left 0.5s;
+    }
+  </style>
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+  <div class="link">
+    <h1>我的社群</h1>
+    <a href="https://github.com/Rafu2102">My Github</a><br><br>
+    <a href="https://rafu2102.github.io/wp/html/%E8%87%AA%E6%88%91%E4%BB%8B%E7%B4%B9.html">自我介绍</a>
+  </div>
+</div>
+
+<div class="toggle-button" id="toggleButton" onclick="toggleSidebar()">></div>
+
+<script>
+let sidebarOpen = false;
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const toggleButton = document.getElementById('toggleButton');
+  if (!sidebarOpen) {
+    sidebar.style.width = '500px';
+    toggleButton.style.left = '500px';
+    toggleButton.innerHTML = '<';
+    sidebarOpen = true;
+  } else {
+    sidebar.style.width = '100px';
+    toggleButton.style.left = '100px';
+    toggleButton.innerHTML = '>';
+    sidebarOpen = false;
+  }
+}
+</script>
+
+</body>
+</html>
+
+
+</body>
+</html>
+
