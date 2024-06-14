@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <button onclick="big()">點我變大</button>
+    </body>
+    <script>
+        function big(){
+            width += 12;
+            height += 12;
+            fontsize += 3;
+            b.style = `position:${position}; height:${height}px; width:${width}px; font-size:${fontsize}px`;
+        }
+
+        let fontsize = 10;
+        let height = 50;
+        let width = 80;
+        let position = 'absolute';
+        let b = document.querySelector('button');
+        b.style = `position:${position}; height:${height}px; width:${width}px; font-size:${fontsize}px`;
+    </script>
+</html>
