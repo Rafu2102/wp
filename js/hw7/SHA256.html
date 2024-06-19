@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>SHA-256 Hash Converter</title>
+    <body>
+        <h1>SHA-256 雜湊值轉換器</h1>
+        <input type="text" id="inputString" placeholder="請輸入想轉換的字串">
+        <div id="outputHash">雜湊值會顯示在這裡...</div>
+    </body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            font-size: 24px;
+        }
+        #inputString {
+            width: 400px;
+            padding: 15px;
+            font-size: 24px;
+        }
+        #outputHash {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 24px;
+        }
+    </style>
+    <script>
+        async function sha256(str) {
+            const buffer = new TextEncoder().encode(str);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        function handleInput() {
+            const input = document.getElementById('inputString').value;
+            sha256(input).then(hash => {
+                document.getElementById('outputHash').innerText = hash;
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const inputElement = document.getElementById('inputString');
+            inputElement.addEventListener('input', handleInput);
+        });
+    </script>
+</head>
+</html>
