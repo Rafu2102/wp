@@ -1,36 +1,65 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <title>複雜佈局</title>
-    <style>
-        body {
-            display: grid;
-            grid-template-areas: 
-                "header header"
-                "nav main"
-                "footer footer";
-            grid-template-rows: auto 1fr auto;
-            grid-template-columns: 200px 1fr;
+    <style> 
+        html, body { 
+            width: 100vw;
             height: 100vh;
             margin: 0;
+            overflow: hidden; 
+        }
+        body { 
+            display: grid;  
+            grid-template-areas: 
+                "header header header"
+                "topnav topnav topnav"
+                "nav main right-nav"
+                "footer footer footer";
+            grid-template-rows: auto auto 1fr auto;
+            grid-template-columns: 130px 1fr 0px;
+            height: 100vh;
         }
         header {
             grid-area: header;
-            background-color: #4CAF50;
-            color: white;
             text-align: center;
             padding: 1em;
-            background-image: url('https://github.com/Rafu2102/wp/blob/master/js/hw8/image.png');
+            background-color: #b2926a; 
             background-size: cover;
             background-position: center;
+        }
+        .topnav {
+            grid-area: topnav;
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(
+                to right, 
+                rgb(90, 130, 147), 
+                rgb(132, 192, 189), 
+                rgb(58, 79, 107),
+                rgb(132, 192, 189),
+                rgb(90, 130, 147)
+            ); 
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
         }
         nav {
             grid-area: nav;
             width: 100px;
-            background-image: linear-gradient(-225deg, #CBBACC 0%, #2580B3 100%);
+            background-color: #AF8260; 
             transition: width 0.5s;
             padding: 1em;
             color: white;
+            overflow: hidden;
+            z-index: 1;
         }
         nav:hover {
             width: 500px;
@@ -38,11 +67,15 @@
         main {
             grid-area: main;
             padding: 1em;
+            background-color: #803D3B; 
+            background-size: contain; 
+            background-repeat: no-repeat;
+            background-position: center;
         }
         footer {
             grid-area: footer;
-            background-color: #4CAF50;
-            color: white;
+            background-color:#322C2B;
+            background-blend-mode: multiply, multiply;
             text-align: center;
             padding: 1em;
         }
@@ -50,21 +83,31 @@
 </head>
 <body>
     <header>
-        <h1>網站標題</h1>
+        <h1 style="color:#F0F0F0;">Layout 佈局</h1>
     </header>
+    <div class="topnav">
+        <a href="https://www.youtube.com/watch?v=VP7FM1yyMpU&pp=ygUb44Ki44K144Ks44Kq44Gu5pWj44KL6aCD44Gr">アサガオの散る頃に</a>
+        <a href="https://youtu.be/B3akM3m_tz0?si=QVuxiMpI0w3EuZhK">ギターと孤独と蒼い惑星 </a>
+        <a href="https://youtu.be/MDcPpQHAEro?si=vFl2MlwQRwqbOeL2">使一顆心免於哀傷</a>
+    </div>
     <nav>
         <div class="link">
-            <h1>我的社群</h1>
-            <a href="https://github.com/Rafu2102" style="color: white;">My Github</a><br><br>
-            <a href="https://rafu2102.github.io/wp/html/%E8%87%AA%E6%88%91%E4%BB%8B%E7%B4%B9.html" style="color: white;">自我介绍</a>
+            <h2 style="color:#F0F0F0;">我的社群</h2>
+            <a href="https://github.com/Rafu2102" style="color:#F0F0F0;">My Github</a><br><br>
+            <a href="https://rafu2102.github.io/wp/html/%E8%87%AA%E6%88%91%E4%BB%8B%E7%B4%B9.html" style="color:#F0F0F0;">自我介绍</a><br><br>
+            <a href="https://github.com/Rafu2102/wp/blob/master/js/hw8/StarRail_Image_1718816402.png?raw=true" style="color:#F0F0F0;">ホタルちゃん</a>
         </div>
     </nav>
     <main>
-        <h2>主內容</h2>
-        <p>這裡是主內容區域。</p>
+        <h2 style="color:#F0F0F0;">大家好！</h2>
+        <p style="color:#F0F0F0;">我叫做林明昌，目前是金門大學資訊工程系的學生。很高興有機會向大家介紹自己!希望能與大家多多交流!共同學習與成長!</p>
+        <p style="color:#F0F0F0;">想看我的社群的話歡迎點擊左邊的自我介紹!</p>
+        <p style="color:#F0F0F0;">有玩崩鐵的歡迎點開左邊的ホタルちゃん加我好友!</p>
+        <p style="color:#F0F0F0;">上面推薦三首好歌!歡迎去聽一下!</p><br><br><br><br><br><br>
+        <p style="color:#F0F0F0;">ほんやくしたひとはバカだ！</p>
     </main>
     <footer>
-        <p>網站頁腳</p>
+        <p style="color:#F0F0F0;">Present by 林明昌 (Lin-Ming-Chang)</p>
     </footer>
 </body>
 </html>

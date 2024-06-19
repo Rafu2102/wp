@@ -1,0 +1,1 @@
+![ホタルちゃん]("D:\Star Rail\Games\StarRail_Data\ScreenShots\StarRail_Image_1718816402.png")
