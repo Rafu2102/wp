@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>複雜佈局</title>
+    <style>
+        body {
+            display: grid;
+            grid-template-areas: 
+                "header header"
+                "nav main"
+                "footer footer";
+            grid-template-rows: auto 1fr auto;
+            grid-template-columns: 200px 1fr;
+            height: 100vh;
+            margin: 0;
+        }
+        header {
+            grid-area: header;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        nav {
+            grid-area: nav;
+            width: 100px;
+            background-image: linear-gradient(-225deg, #CBBACC 0%, #2580B3 100%);
+            transition: width 0.5s;
+            padding: 1em;
+            color: white;
+        }
+        nav:hover {
+            width: 500px;
+        }
+        main {
+            grid-area: main;
+            padding: 1em;
+        }
+        footer {
+            grid-area: footer;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>網站標題</h1>
+    </header>
+    <nav>
+        <div class="link">
+            <h1>我的社群</h1>
+            <a href="https://github.com/Rafu2102" style="color: white;">My Github</a><br><br>
+            <a href="https://rafu2102.github.io/wp/html/%E8%87%AA%E6%88%91%E4%BB%8B%E7%B4%B9.html" style="color: white;">自我介绍</a>
+        </div>
+    </nav>
+    <main>
+        <h2>主內容</h2>
+        <p>這裡是主內容區域。</p>
+    </main>
+    <footer>
+        <p>網站頁腳</p>
+    </footer>
+</body>
+</html>
