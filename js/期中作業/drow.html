@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彈跳畫筆</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 0 auto;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .controls div {
+            margin-bottom: 10px;
+        }
+        #fullscreenImage {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+        }
+        #fullscreenImage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>彈跳畫筆</h1>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <div class="controls">
+        <div>
+            <label for="brushCount">畫筆數量 (1-1000): </label>
+            <input type="number" id="brushCount" min="1" max="1000" value="10">
+        </div>
+        <div>
+            <label for="speed">速度 (1-5000): </label>
+            <input type="number" id="speed" min="1" max="5000" value="2">
+        </div>
+        <div>
+            <label for="size">筆刷大小 (1-500): </label>
+            <input type="number" id="size" min="1" max="500" value="5">
+        </div>
+        <div>
+            <label for="color">筆刷顏色: </label>
+            <input type="color" id="color" value="#000000">
+        </div>
+        <div>
+            <button id="randomGradient">隨機漸層</button>
+        </div>
+        <div>
+            <button id="toggleAnimation">暫停</button>
+        </div>
+    </div>
+    <div>
+        <h2>碰撞次數: <span id="collisionCount">0</span></h2>
+    </div>
+    <div id="fullscreenImage">
+        <!-- 將圖片URL放在這裡 -->
+        <img src="https://img.ltn.com.tw/Upload/3c/page/2021/11/15/211115-46692-1.png" alt="Image">
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let collisionCount = 0;
+        let isAnimating = true;
+        let useRandomGradient = false;
+        let escCounter = 0; // ESC鍵計數器
+        const brushes = [];
+
+        class Brush {
+            constructor(x, y, dx, dy, size, color) {
+                this.x = x;
+                this.y = y;
+                this.dx = dx;
+                this.dy = dy;
+                this.size = size;
+                this.color = color;
+                this.gradientColors = [color, color];
+                this.step = 0;
+            }
+
+            getGradientColor(step, totalSteps) {
+                const color1 = hexToRgb(this.gradientColors[0]);
+                const color2 = hexToRgb(this.gradientColors[1]);
+                const r = Math.floor(color1.r + (color2.r - color1.r) * (step / totalSteps));
+                const g = Math.floor(color1.g + (color2.g - color1.g) * (step / totalSteps));
+                const b = Math.floor(color1.b + (color2.b - color1.b) * (step / totalSteps));
+                return `rgb(${r}, ${g}, ${b})`;
+            }
+
+            draw() {
+                const totalSteps = 100;
+                const brushColor = this.getGradientColor(this.step, totalSteps);
+                ctx.strokeStyle = brushColor;
+                ctx.lineWidth = this.size;
+                ctx.lineCap = 'round';
+
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+
+                if (this.x + this.dx > canvas.width || this.x + this.dx < 0) {
+                    this.dx = -this.dx;
+                    collisionCount++;
+                    document.getElementById('collisionCount').innerText = collisionCount;
+                    if (collisionCount >= 1000000) {
+                        showFullscreenImage();
+                    }
+                    if (useRandomGradient) {
+                        this.gradientColors = generateRandomGradient();
+                    }
+                }
+                if (this.y + this.dy > canvas.height || this.y + this.dy < 0) {
+                    this.dy = -this.dy;
+                    collisionCount++;
+                    document.getElementById('collisionCount').innerText = collisionCount;
+                    if (collisionCount >= 1000000) {
+                        showFullscreenImage();
+                    }
+                    if (useRandomGradient) {
+                        this.gradientColors = generateRandomGradient();
+                    }
+                }
+
+                this.x += this.dx;
+                this.y += this.dy;
+                ctx.lineTo(this.x, this.y);
+                ctx.stroke();
+
+                this.step = (this.step + 1) % totalSteps;
+            }
+        }
+
+        function initializeBrushes() {
+            brushes.length = 0;
+            const brushCount = parseInt(document.getElementById('brushCount').value);
+            for (let i = 0; i < brushCount; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const direction = randomDirection();
+                const speed = parseInt(document.getElementById('speed').value);
+                const dx = direction.dx * speed;
+                const dy = direction.dy * speed;
+                const size = parseInt(document.getElementById('size').value);
+                const color = document.getElementById('color').value;
+                brushes.push(new Brush(x, y, dx, dy, size, color));
+            }
+        }
+
+        document.getElementById('brushCount').addEventListener('input', function() {
+            initializeBrushes();
+        });
+
+        document.getElementById('speed').addEventListener('input', function() {
+            const speed = parseInt(this.value);
+            for (const brush of brushes) {
+                const direction = randomDirection();
+                brush.dx = direction.dx * speed;
+                brush.dy = direction.dy * speed;
+            }
+            if (!isAnimating) {
+                animate();
+            }
+        });
+
+        document.getElementById('size').addEventListener('input', function() {
+            const size = parseInt(this.value);
+            for (const brush of brushes) {
+                brush.size = size;
+            }
+            if (!isAnimating) {
+                animate();
+            }
+        });
+
+        document.getElementById('color').addEventListener('input', function() {
+            const color = this.value;
+            for (const brush of brushes) {
+                brush.color = color;
+                brush.gradientColors = [color, color];
+            }
+        });
+
+        document.getElementById('randomGradient').addEventListener('click', function() {
+            useRandomGradient = true;
+            for (const brush of brushes) {
+                brush.gradientColors = generateRandomGradient();
+            }
+        });
+
+        document.getElementById('toggleAnimation').addEventListener('click', function() {
+            isAnimating = !isAnimating;
+            this.textContent = isAnimating ? '暫停' : '開始';
+            if (isAnimating) {
+                animate();
+            }
+        });
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function generateRandomGradient() {
+            const color1 = getRandomColor();
+            const color2 = getRandomColor();
+            return [color1, color2];
+        }
+
+        function hexToRgb(hex) {
+            const bigint = parseInt(hex.slice(1), 16);
+            const r = (bigint >> 16) & 255;
+            const g = (bigint >> 8) & 255;
+            const b = (bigint & 255);
+            return { r, g, b };
+        }
+
+        function randomDirection() {
+            const angle = Math.random() * Math.PI * 2;
+            return { dx: Math.cos(angle), dy: Math.sin(angle) };
+        }
+
+        function draw() {
+            for (const brush of brushes) {
+                brush.draw();
+            }
+        }
+
+        function animate() {
+            if (isAnimating) {
+                draw();
+                requestAnimationFrame(animate);
+            }
+        }
+
+        function showFullscreenImage() {
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            fullscreenImage.style.display = 'block';
+            if (fullscreenImage.requestFullscreen) {
+                fullscreenImage.requestFullscreen();
+            } else if (fullscreenImage.mozRequestFullScreen) { // Firefox
+                fullscreenImage.mozRequestFullScreen();
+            } else if (fullscreenImage.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                fullscreenImage.webkitRequestFullscreen();
+            } else if (fullscreenImage.msRequestFullscreen) { // IE/Edge
+                fullscreenImage.msRequestFullscreen();
+            }
+
+            // 监听ESC键
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    escCounter++;
+                    if (escCounter >= 2) {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        } else if (document.mozCancelFullScreen) { // Firefox
+                            document.mozCancelFullScreen();
+                        } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                            document.webkitExitFullscreen();
+                        } else if (document.msExitFullscreen) { // IE/Edge
+                            document.msExitFullscreen();
+                        }
+                        escCounter = 0; // 重置计数器
+                    }
+                }
+            });
+        }
+
+        initializeBrushes();
+        animate(); // 確保動畫在打開網站時自動開始
+    </script>
+</body>
+</html>
