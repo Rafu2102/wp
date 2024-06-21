@@ -30,6 +30,7 @@
 ## 作業5：DOM 的 JavaScript 操控練習
 
 前1,2題參考老師上課範例，第三題參考ChatGpt讓按鈕隨機顏色。
+
 [程式碼](https://github.com/Rafu2102/wp/tree/master/js/hw5)
 
 1.  按鈕按下去會變大 
@@ -45,6 +46,7 @@
 
 參考w3 school和上課範例，製作CSS與JavaScript版本的側欄
 第二題參考chatgpt做展開按鈕
+
 [程式碼](https://github.com/Rafu2102/wp/tree/master/js/hw6)
 
 1. CSS
