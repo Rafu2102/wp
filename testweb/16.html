@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>十六進位與 ASCII 轉換器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            font-size: 24px;
+        }
+        #hexInput, #asciiInput {
+            width: 400px;
+            padding: 15px;
+            font-size: 24px;
+        }
+        #hexOutput, #asciiOutput {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 24px;
+        }
+        .copyButton {
+            margin-left: 10px;
+            padding: 10px 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function hexToAscii(hexStr) {
+            let hex = hexStr.toString();
+            let str = '';
+            for (let i = 0; i < hex.length; i += 2) {
+                str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+            }
+            return str;
+        }
+
+        function asciiToHex(str) {
+            let hex = '';
+            for (let i = 0; i < str.length; i++) {
+                hex += str.charCodeAt(i).toString(16).padStart(2, '0');
+            }
+            return hex;
+        }
+
+        function handleHexInput() {
+            const hexInput = document.getElementById('hexInput').value;
+            const asciiOutput = hexToAscii(hexInput);
+            document.getElementById('asciiOutput').innerText = asciiOutput;
+        }
+
+        function handleAsciiInput() {
+            const asciiInput = document.getElementById('asciiInput').value;
+            const hexOutput = asciiToHex(asciiInput);
+            document.getElementById('hexOutput').innerText = hexOutput;
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('已複製到剪貼簿');
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const hexInputElement = document.getElementById('hexInput');
+            const asciiInputElement = document.getElementById('asciiInput');
+            hexInputElement.addEventListener('input', handleHexInput);
+            asciiInputElement.addEventListener('input', handleAsciiInput);
+
+            const copyHexButton = document.getElementById('copyHexButton');
+            const copyAsciiButton = document.getElementById('copyAsciiButton');
+            copyHexButton.addEventListener('click', () => copyToClipboard('hexOutput'));
+            copyAsciiButton.addEventListener('click', () => copyToClipboard('asciiOutput'));
+        });
+    </script>
+</head>
+<body>
+    <h1>十六進位與 ASCII 轉換器</h1>
+    <div>
+        <h2>十六進位轉 ASCII</h2>
+        <input type="text" id="hexInput" placeholder="請輸入十六進位字串">
+        <div id="asciiOutput">ASCII 會顯示在這裡...</div>
+        <button id="copyAsciiButton" class="copyButton">複製</button>
+    </div>
+    <div>
+        <h2>ASCII 轉十六進位</h2>
+        <input type="text" id="asciiInput" placeholder="請輸入 ASCII 字串">
+        <div id="hexOutput">十六進位會顯示在這裡...</div>
+        <button id="copyHexButton" class="copyButton">複製</button>
+    </div>
+</body>
+</html>

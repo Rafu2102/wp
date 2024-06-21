@@ -69,7 +69,7 @@
         <h2>碰撞次數: <span id="collisionCount">0</span></h2>
     </div>
     <div id="fullscreenImage">
-        <!-- 將圖片URL放在這裡 -->
+        
         <img src="https://img.ltn.com.tw/Upload/3c/page/2021/11/15/211115-46692-1.png" alt="Image">
     </div>
 
@@ -79,7 +79,7 @@
         let collisionCount = 0;
         let isAnimating = true;
         let useRandomGradient = false;
-        let escCounter = 0; // ESC鍵計數器
+        let escCounter = 0; 
         const brushes = [];
 
         class Brush {
@@ -101,6 +101,7 @@
                 const g = Math.floor(color1.g + (color2.g - color1.g) * (step / totalSteps));
                 const b = Math.floor(color1.b + (color2.b - color1.b) * (step / totalSteps));
                 return `rgb(${r}, ${g}, ${b})`;
+
             }
 
             draw() {
@@ -256,36 +257,17 @@
             fullscreenImage.style.display = 'block';
             if (fullscreenImage.requestFullscreen) {
                 fullscreenImage.requestFullscreen();
-            } else if (fullscreenImage.mozRequestFullScreen) { // Firefox
+            } else if (fullscreenImage.mozRequestFullScreen) { 
                 fullscreenImage.mozRequestFullScreen();
-            } else if (fullscreenImage.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            } else if (fullscreenImage.webkitRequestFullscreen) { 
                 fullscreenImage.webkitRequestFullscreen();
-            } else if (fullscreenImage.msRequestFullscreen) { // IE/Edge
-                fullscreenImage.msRequestFullscreen();
+            } else if (fullscreenImage.msRequestFullscreen) {
             }
-
-            // 监听ESC键
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape') {
-                    escCounter++;
-                    if (escCounter >= 2) {
-                        if (document.exitFullscreen) {
-                            document.exitFullscreen();
-                        } else if (document.mozCancelFullScreen) { // Firefox
-                            document.mozCancelFullScreen();
-                        } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-                            document.webkitExitFullscreen();
-                        } else if (document.msExitFullscreen) { // IE/Edge
-                            document.msExitFullscreen();
-                        }
-                        escCounter = 0; // 重置计数器
-                    }
-                }
-            });
-        }
-
+}
+            
+        
         initializeBrushes();
-        animate(); // 確保動畫在打開網站時自動開始
+        animate();
     </script>
 </body>
 </html>
