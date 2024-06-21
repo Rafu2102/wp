@@ -84,12 +84,15 @@
 
 ## 作業11：請閱讀 denoApiService + Blog 的程式碼，並寫下你的理解，然後為程式碼加上詳細的註解
 
-有點難所以還沒做!  
+有點難所以還沒做! 
+
+* [程式碼]()
+* [網頁]()
 
 ## 期中作業：請寫一個網頁作品
 
 在做繪畫的作業時，我想到如果可以做一個會跳來跳去的畫筆一定很有趣!
 所以我請ChatGPT做了一個基礎的程式碼我在做細節的修改(如位置、大小、顏色.......等)
 
-* [程式碼]()
-* [網頁]()
+* [程式碼](https://github.com/Rafu2102/wp/blob/master/js/%E6%9C%9F%E4%B8%AD%E4%BD%9C%E6%A5%AD/draw.html)
+* [網頁](https://rafu2102.github.io/wp/js/%E6%9C%9F%E4%B8%AD%E4%BD%9C%E6%A5%AD/draw.html)
