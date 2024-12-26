@@ -12,6 +12,6 @@ function countChar(str) {
     return charCount;
 }
 
-let str = "Hello! How Are You?aaaaabbbcccccccddeeeeee";
+let str = "sukisukisukidaisukidesuyooniisann";
 let charCount = countChar(str);
 console.log(charCount);

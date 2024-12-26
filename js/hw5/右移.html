@@ -3,18 +3,22 @@
         <button onclick="big()">點我往右</button>
     </body>
     <script>
-        function big(){
-            left += 20
-            b.style = `position:${position}; height:${height}px; width:${width}px; font-size:${fontsize}px; left:${left}; top:${top1};`
+        // 定義按鈕樣式和行為
+        function big() {
+            left += 20; // 增加左偏移
+            b.style = `position:${position}; height:${height}px; width:${width}px; font-size:${fontsize}px; left:${left}px; top:${top1}px;`;
         }
 
+        // 初始化樣式變數
         let fontsize = 20;
         let height = 40;
         let width = 100;
-        let top1= 0;
-        let left= 0;
+        let top1 = 0;
+        let left = 0;
         let position = 'absolute';
+
+        // 取得按鈕並設置初始樣式
         let b = document.querySelector('button');
-        b.style = `position:${position}; height:${height}px; width:${width}px; font-size:${fontsize}px; left:${left}; top:${top1};`
+        b.style = `position:${position}; height:${height}px; width:${width}px; font-size:${fontsize}px; left:${left}px; top:${top1}px;`;
     </script>
 </html>
